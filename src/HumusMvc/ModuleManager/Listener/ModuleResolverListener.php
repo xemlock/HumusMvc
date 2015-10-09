@@ -17,22 +17,17 @@ class ModuleResolverListener extends AbstractListener
         $class      = $moduleName . '\Module';
 
         if (!class_exists($class)) {
-            // If expected module class was not found, check for the possible
-            // class name variations:
-            // - If module directory uses ZF1 naming style (ZF1 uses lisp-case
-            //   instead of CamelCase), check for Module class in Camel-Cased
-            //   module name namespace
-            // - If that fails, check for class name prefixed with Camel-Cased
-            //   module name
-            // Checks does not involve autoloading, as at this point module's
-            // Module.php file is already loaded.
+            // If expected module class was not found, check for the possible class name variations:
+            // - If module directory uses ZF1 naming style (spinal-case instead of CamelCase), check
+            //   for Module class in Camel-Cased module name namespace
+            // - If that fails, check for class name prefixed with Camel-Cased module name
+            //   (no autoloading involved here)
 
             $moduleName = $this->formatModuleName($moduleName);
             $class      = $moduleName . '\Module';
 
-            if (!class_exists($class, false)) {
+            if (!class_exists($class)) {
                 $class = $moduleName . '_Module';
-
                 if (!class_exists($class, false)) {
                     return false;
                 }

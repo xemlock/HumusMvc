@@ -4,9 +4,7 @@ namespace HumusMvc\ModuleManager\Listener;
 
 use Zend\EventManager\EventManagerInterface;
 use Zend\ModuleManager\Listener\DefaultListenerAggregate as Zf2DefaultListenerAggregate;
-
 use Zend\ModuleManager\Listener\LocatorRegistrationListener;
-use Zend\ModuleManager\Listener\ModuleLoaderListener;
 use Zend\ModuleManager\Listener\AutoloaderListener;
 use Zend\ModuleManager\Listener\ModuleDependencyCheckerListener;
 use Zend\ModuleManager\Listener\InitTrigger;
@@ -16,8 +14,8 @@ use Zend\ModuleManager\ModuleEvent;
 /**
  * Default Listener Aggregate
  *
- * Uses a modified ModuleResolverListener that can properly handle ZF1 module
- * naming conventions.
+ * Attaches a customized ModuleLoaderListener and ModuleResolverListener
+ * that can properly handle ZF1 module naming conventions.
  */
 class DefaultListenerAggregate extends Zf2DefaultListenerAggregate
 {
@@ -26,6 +24,11 @@ class DefaultListenerAggregate extends Zf2DefaultListenerAggregate
      */
     public function attach(EventManagerInterface $events)
     {
+        // The code below is directly copied from Zend\ModuleManager\Listener\DefaultListenerAggregate::attach()
+        // - which hasn't changed since 15 Jan 2013 (zendframework/zend-modulemanager@4684ed2).
+        // Please note that ModuleLoaderListener and ModuleResolverListener classes used are not the original
+        // ones due to used use directives.
+
         $options                     = $this->getOptions();
         $configListener              = $this->getConfigListener();
         $locatorRegistrationListener = new LocatorRegistrationListener($options);
