@@ -59,6 +59,23 @@ class Dispatcher extends StandardDispatcher implements
     }
 
     /**
+     * Set options from array
+     *
+     * @param array $options
+     * @return Dispatcher
+     */
+    public function setOptions(array $options)
+    {
+        foreach ($options as $key => $value) {
+            $method = 'set' . $key;
+            if (method_exists($this, $method)) {
+                $this->{$method}($value);
+            }
+        }
+        return $this;
+    }
+
+    /**
      * Returns TRUE if the Zend_Controller_Request_Abstract object can be
      * dispatched to a controller.
      *
@@ -146,7 +163,9 @@ class Dispatcher extends StandardDispatcher implements
         } else {
             // default controller without dependencies
             $controller = new $className($request, $response, $this->getParams());
-            if ($controller instanceof ServiceLocatorAwareInterface) {
+            if ($controller instanceof ServiceLocatorAwareInterface
+                || method_exists($controller, 'setServiceLocator')
+            ) {
                 $controller->setServiceLocator($sl);
             }
         }

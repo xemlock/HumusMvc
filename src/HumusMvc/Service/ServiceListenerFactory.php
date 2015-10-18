@@ -34,18 +34,19 @@ class ServiceListenerFactory extends ZendServiceListenerFactory
      */
     protected $defaultServiceConfig = array(
         'invokables' => array(
-            'Router'     => 'Zend_Controller_Router_Rewrite',
             'Dispatcher' => 'HumusMvc\Dispatcher',
             'DispatchListener' => 'HumusMvc\DispatchListener',
             'SendResponseListener' => 'HumusMvc\SendResponseListener',
-            'Request'    => 'Zend_Controller_Request_Http',
-            'Response'   => 'Zend_Controller_Response_Http'
         ),
         'factories' => array(
             'Application'             => 'HumusMvc\Service\ApplicationFactory',
+            'Bootstrap'               => 'HumusMvc\Service\BootstrapFactory',
             'Config'                  => 'Zend\Mvc\Service\ConfigFactory',
             'DependencyInjector'      => 'Zend\Mvc\Service\DiFactory',
             'FrontController'         => 'HumusMvc\Service\FrontControllerFactory',
+            'Request'                 => 'HumusMvc\Service\RequestFactory',
+            'Response'                => 'HumusMvc\Service\ResponseFactory',
+            'Router'                  => 'HumusMvc\Service\RouterFactory',
             'View'                    => 'HumusMvc\Service\ViewFactory',
             'ViewHelperManager'       => 'HumusMvc\Service\ViewHelperManagerFactory',
             'ActionHelperManager'     => 'HumusMvc\Service\ActionHelperManagerFactory',
@@ -56,9 +57,9 @@ class ServiceListenerFactory extends ZendServiceListenerFactory
             'Zend\Di\LocatorInterface'               => 'DependencyInjector',
             'Zend_Controller_Front'                  => 'FrontController',
             'HumusMvc\Dispatcher'                    => 'Dispatcher',
-            'Zend_Controller_Router_Rewrite'         => 'Router',
-            'Zend_Controller_Request_Http'           => 'Request',
-            'Zend_Controller_Response_Http'          => 'Response',
-        )
+        ),
+        'abstract_factories' => array(
+            'HumusMvc\Service\ResourceFactory',
+        ),
   );
 }

@@ -17,6 +17,8 @@
         "zendframework/zendframework1": "1.12.*"
     },
     "autoload": {
-        "classmap": [ "src/" ]
+        "psr-0": {
+            "HumusMvc\\": "src/"
+        }
     }
 }
