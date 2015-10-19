@@ -37,6 +37,8 @@ class ServiceListenerFactory extends ZendServiceListenerFactory
             'Dispatcher' => 'HumusMvc\Dispatcher',
             'DispatchListener' => 'HumusMvc\DispatchListener',
             'SendResponseListener' => 'HumusMvc\SendResponseListener',
+            'Request' => 'Zend_Controller_Request_Http',
+            'Response' => 'Zend_Controller_Response_Http',
         ),
         'factories' => array(
             'Application'             => 'HumusMvc\Service\ApplicationFactory',
@@ -44,8 +46,6 @@ class ServiceListenerFactory extends ZendServiceListenerFactory
             'Config'                  => 'Zend\Mvc\Service\ConfigFactory',
             'DependencyInjector'      => 'Zend\Mvc\Service\DiFactory',
             'FrontController'         => 'HumusMvc\Service\FrontControllerFactory',
-            'Request'                 => 'HumusMvc\Service\RequestFactory',
-            'Response'                => 'HumusMvc\Service\ResponseFactory',
             'Router'                  => 'HumusMvc\Service\RouterFactory',
             'View'                    => 'HumusMvc\Service\ViewFactory',
             'ViewHelperManager'       => 'HumusMvc\Service\ViewHelperManagerFactory',
@@ -55,8 +55,6 @@ class ServiceListenerFactory extends ZendServiceListenerFactory
             'Configuration'                          => 'Config',
             'Di'                                     => 'DependencyInjector',
             'Zend\Di\LocatorInterface'               => 'DependencyInjector',
-            'Zend_Controller_Front'                  => 'FrontController',
-            'HumusMvc\Dispatcher'                    => 'Dispatcher',
         ),
         'abstract_factories' => array(
             'HumusMvc\Service\ResourceFactory',

@@ -9,15 +9,27 @@ class ResourceFactory implements AbstractFactoryInterface
 {
     public function canCreateServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        /** @var \HumusMvc\Bootstrap\Bootstrap $bootstrap */
+        /** @var $bootstrap \Zend_Application_Bootstrap_ResourceBootstrapper */
         $bootstrap = $serviceLocator->get('Bootstrap');
-        return $bootstrap->hasPluginResource($requestedName);
+        try {
+            $pluginClass = $bootstrap->getPluginLoader()->load(strtolower($requestedName));
+        } catch (\Zend_Loader_Exception $e) {
+            $pluginClass = null;
+        }
+        return (bool) $pluginClass;
     }
 
     public function createServiceWithName(ServiceLocatorInterface $serviceLocator, $name, $requestedName)
     {
-        /** @var \HumusMvc\Bootstrap\Bootstrap $bootstrap */
+        $config = $serviceLocator->has('Config') ? $serviceLocator->get('Config') : array();
+        $options = isset($config[$requestedName]) ? $config[$$requestedName] : array();
+
+        /** @var $bootstrap \Zend_Application_Bootstrap_ResourceBootstrapper */
         $bootstrap = $serviceLocator->get('Bootstrap');
-        return $bootstrap->getPluginResource($requestedName)->init();
+        if (!$bootstrap->hasPluginResource($requestedName)) {
+            $bootstrap->registerPluginResource($requestedName);
+        }
+
+        return $bootstrap->getPluginResource($requestedName)->setOptions($options)->init();
     }
 }
